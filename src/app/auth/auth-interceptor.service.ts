@@ -9,6 +9,8 @@ import { take, exhaustMap } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 
+// all the request have to pass through this. This is the concept of interceptor.
+
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
   constructor(private authService: AuthService) {}

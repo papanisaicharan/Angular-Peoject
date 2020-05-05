@@ -11,6 +11,7 @@ import { RecipeService } from '../recipe.service';
 })
 export class RecipeEditComponent implements OnInit {
   id: number;
+  // if edit an existing recipe, this flag will turn out to be true
   editMode = false;
   recipeForm: FormGroup;
 
@@ -21,7 +22,9 @@ export class RecipeEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Inorder to get the recipe in the edit mode, getting the id through params
     this.route.params.subscribe((params: Params) => {
+      // console.log("id: "+params['id'] + (params['id'] != null))
       this.id = +params['id'];
       this.editMode = params['id'] != null;
       this.initForm();
@@ -63,11 +66,13 @@ export class RecipeEditComponent implements OnInit {
   }
 
   private initForm() {
+    // these indicate indirectly input fields,
     let recipeName = '';
     let recipeImagePath = '';
     let recipeDescription = '';
     let recipeIngredients = new FormArray([]);
 
+    // if in editing mode then retrieve the recipe and show them in input fields
     if (this.editMode) {
       const recipe = this.recipeService.getRecipe(this.id);
       recipeName = recipe.name;
@@ -87,7 +92,7 @@ export class RecipeEditComponent implements OnInit {
         }
       }
     }
-
+    // creating form
     this.recipeForm = new FormGroup({
       name: new FormControl(recipeName, Validators.required),
       imagePath: new FormControl(recipeImagePath, Validators.required),

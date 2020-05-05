@@ -6,6 +6,7 @@ import { throwError, BehaviorSubject } from 'rxjs';
 
 import { User } from './user.model';
 
+// It is the response model class that we get from firebase.
 export interface AuthResponseData {
   kind: string;
   idToken: string;
@@ -18,12 +19,18 @@ export interface AuthResponseData {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  // https://stackoverflow.com/questions/39494058/behaviorsubject-vs-observable
+  // BehaviorSubject is a type of subject, a subject is a special type of observable so you can subscribe to messages like any other observable. 
+  // this observable gives the access to the observers to the previously emitted value
+  // even though it created after the emitting, it still have the access to the previous emitted value.
   user = new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router) {}
 
   signup(email: string, password: string) {
+    // https://firebase.google.com/docs/reference/rest/auth#section-create-email-password
+    // use the above link to know more about the request and response payloads
     return this.http
       .post<AuthResponseData>(
         'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyDTPtm2Wo6pNHWaVaesI7aZVM5s_tXIFGU',
@@ -44,6 +51,11 @@ export class AuthService {
           );
         })
       );
+      // You can use pipes to link operators together. Pipes let you combine multiple functions into a single function.
+      // refer regx to know more about pipes: https://angular.io/guide/rx-library
+      // https://stackoverflow.com/questions/48030197/what-is-pipe-function-in-angular
+
+      // for more info on catchError : https://rxjs-dev.firebaseapp.com/api/operators/catchError
   }
 
   login(email: string, password: string) {
@@ -69,7 +81,9 @@ export class AuthService {
       );
   }
 
+  // this is useful when you reload the page 
   autoLogin() {
+    // get the useData from storage
     const userData: {
       email: string;
       id: string;
@@ -80,6 +94,7 @@ export class AuthService {
       return;
     }
 
+    // convert into object
     const loadedUser = new User(
       userData.email,
       userData.id,
@@ -106,8 +121,9 @@ export class AuthService {
     this.tokenExpirationTimer = null;
   }
 
+  // calling logout function after session expiry: return observable
   autoLogout(expirationDuration: number) {
-      console.log(expirationDuration);
+    console.log("expires in : "+expirationDuration);
     this.tokenExpirationTimer = setTimeout(() => {
       this.logout();
     }, expirationDuration);
@@ -119,10 +135,15 @@ export class AuthService {
     token: string,
     expiresIn: number
   ) {
+    // As expiresIn is in milliseconds, converting it and finding the expirationDate
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+    // creating the user using user-model
     const user = new User(email, userId, token, expirationDate);
+    // passing the values to the subscribers.
     this.user.next(user);
+    // creating a session which expires in expiresIn * 1000 time
     this.autoLogout(expiresIn * 1000);
+    // store it in browser local Storage
     localStorage.setItem('userData', JSON.stringify(user));
   }
 
@@ -131,6 +152,7 @@ export class AuthService {
     if (!errorRes.error || !errorRes.error.error) {
       return throwError(errorMessage);
     }
+    // based on the reponse from firebase access the error msg and validate accordingly, refer the link about
     switch (errorRes.error.error.message) {
       case 'EMAIL_EXISTS':
         errorMessage = 'This email exists already';
@@ -142,6 +164,7 @@ export class AuthService {
         errorMessage = 'This password is not correct.';
         break;
     }
+    // return the error observable
     return throwError(errorMessage);
   }
 }

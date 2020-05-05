@@ -16,6 +16,7 @@ export class DataStorageService {
 
   storeRecipes() {
     const recipes = this.recipeService.getRecipes();
+    // https://angular.io/api/common/http/HttpClient#usage-notes
     this.http
       .put(
         'https://angular-course-93154.firebaseio.com/recipes.json',
@@ -27,22 +28,30 @@ export class DataStorageService {
   }
 
   fetchRecipes() {
+    // get the latest user and unsubscribe it : take function does that.
+    // https://rxjs-dev.firebaseapp.com/api/operators/exhaustMap
+    // https://angular.io/api/common/http/HttpClient#usage-notes
+    // https://angular.io/guide/rx-library
+    // https://rxjs-dev.firebaseapp.com/api/operators/tap
     return this.http
       .get<Recipe[]>(
+        // we can also set the param in the url item, but preferring this way.
         'https://angular-course-93154.firebaseio.com/recipes.json'
-      )
-      .pipe(
-        map(recipes => {
-          return recipes.map(recipe => {
-            return {
-              ...recipe,
-              ingredients: recipe.ingredients ? recipe.ingredients : []
-            };
-          });
-        }),
-        tap(recipes => {
-          this.recipeService.setRecipes(recipes);
-        })
-      );
+        // instead use interceptor, and add the params
+        // {
+        //   params: new HttpParams().set('auth', user.token)
+        // }
+      ).pipe(   
+      map(recipes => {
+        return recipes.map(recipe => {
+          return {
+            ...recipe,
+            ingredients: recipe.ingredients ? recipe.ingredients : []
+          };
+        });
+      }),
+      tap(recipes => {
+        this.recipeService.setRecipes(recipes);
+      }));
   }
 }

@@ -21,6 +21,8 @@ import { AuthComponent } from './auth/auth.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { ProgressLoadingComponent } from './shared/progress.component/progress.component';
 import { AuthInterceptorService } from './auth/auth.interceptor.service';
+import { AlertComponent } from './shared/alert/alert.component';
+import { PlaceholderDirective } from './shared/placeholder/placeholder.directive';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { AuthInterceptorService } from './auth/auth.interceptor.service';
     DropdownDirective,
     RecipeStartComponent,
     RecipeEditComponent,
-    AuthComponent
+    AuthComponent,
+    AlertComponent,
+    PlaceholderDirective
   ],
   imports: [
     BrowserModule,
@@ -52,6 +56,12 @@ import { AuthInterceptorService } from './auth/auth.interceptor.service';
      multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  // which component is used in index.html
+  bootstrap: [AppComponent],
+  // this is not required in angular 9
+  // the component that would be created dynamically in the projects are to be noted Here.
+  entryComponents: [
+    AlertComponent
+  ]
 })
 export class AppModule {}

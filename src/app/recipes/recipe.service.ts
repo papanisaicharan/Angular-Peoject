@@ -27,15 +27,18 @@ export class RecipeService {
 
   constructor(private slService: ShoppingListService) {}
 
+  // setter
   setRecipes(recipes: Recipe[]) {
     this.recipes = recipes;
+    // sending the copy to all subscribers
     this.recipesChanged.next(this.recipes.slice());
   }
 
+  // getter
   getRecipes() {
     return this.recipes.slice();
   }
-
+  // returning a particular recipe based on index
   getRecipe(index: number) {
     return this.recipes[index];
   }
@@ -55,6 +58,7 @@ export class RecipeService {
   }
 
   deleteRecipe(index: number) {
+    // removing the recipe: at index remove one element
     this.recipes.splice(index, 1);
     this.recipesChanged.next(this.recipes.slice());
   }

@@ -1,3 +1,4 @@
+// This is used as a model call for the creating user with the info obtained from firbase after login or singup
 export class User {
   constructor(
     public email: string,
