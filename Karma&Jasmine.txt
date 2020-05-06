@@ -1,0 +1,22 @@
+karma: for running the testcase of an angular project
+jasmine: used for writing the TC in angular
+
+when created new project through CLI, it added jasmine and karma
+to out project, we can see it in package.json file.
+
+when we create a component in our project through angular, Then it
+get generated with a .spec.ts file where TC can be written
+
+In That,
+every it() is a TC
+
+describe(' Testing credit function',()=>{    
+	it("", ()=>{
+
+	});
+}); // it is the collection of TC's
+
+beforeEach()
+beforeAll()
+afterEach()
+afterAll()

@@ -9,10 +9,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RecipeStartComponent } from './recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
 import { RecipesRoutingModule } from './recipes-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 // creating the Recipes module
 @NgModule({
-    // these are the components presnent in this module
+    // these are the components present in this module
+    // Remember, declaration has to be made only once(in the module that is created), use them by exporting and importing
     declarations : [
         RecipesComponent,
         RecipeListComponent,
@@ -23,19 +25,21 @@ import { RecipesRoutingModule } from './recipes-routing.module';
     ],
     // these are the module imported for some functionality
     imports: [
-        CommonModule,
         RouterModule,
         ReactiveFormsModule,
-        RecipesRoutingModule
+        RecipesRoutingModule,
+        SharedModule
     ],
     // exporting these, so that if any module imported this module, they will be able to use this components
-    exports: [
-        RecipesComponent,
-        RecipeListComponent,
-        RecipeDetailComponent,
-        RecipeItemComponent,
-        RecipeStartComponent,
-        RecipeEditComponent
-    ],
+    // removing the exports, because. when we import this module this internally imports RecipesRoutingModule, 
+    // which internally request for the import of the components.
+    // exports: [
+    //     RecipesComponent,
+    //     RecipeListComponent,
+    //     RecipeDetailComponent,
+    //     RecipeItemComponent,
+    //     RecipeStartComponent,
+    //     RecipeEditComponent
+    // ],
 }) 
 export class RecipeModule{}
