@@ -34,4 +34,6 @@ const routes: Routes = [
     imports:  [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class RecipesRoutingModule{}
+export class RecipesRoutingModule{
+  static module: number;
+}

@@ -27,9 +27,9 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
-            "scripts": [ ]
+            "scripts": []
           },
-          "configurations": { 
+          "configurations": {
             "production": {
               "fileReplacements": [
                 {
@@ -121,6 +121,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "section3"
+    }
+  },
+  "defaultProject": "section3",
+  "cli": {
+    "analytics": "aa7abb52-63a1-414d-b05c-e0c27a22b1f6"
+  }
 }
