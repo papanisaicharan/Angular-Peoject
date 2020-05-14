@@ -2,7 +2,7 @@
  This is a project created while learning angular, which cover all the import topics of angularjs.
 
 
-# Angular-Project
+# Section3
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.21.
 
