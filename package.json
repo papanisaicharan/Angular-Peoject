@@ -21,7 +21,7 @@
     "@angular/router": "~9.1.4",
     "acorn": "^7.1.1",
     "bootstrap": "^3.4.1",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "rxjs": "~6.5.5",
     "tslib": "^1.11.2",
     "zone.js": "~0.10.3"
